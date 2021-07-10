@@ -1,0 +1,499 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="The EDWtoDISC package is used to initialize and maintain the EDW Data Production Pipeline 2021 which pushes deal submissions stored in EDW's database to a Parquet optimized table within DISC, leveraging HDFS and queryable through Imapala."><meta name=author content="Ilias Aarab"><link href=https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/PDP/ rel=canonical><link rel=icon href=../../assets/favicon.png><meta name=generator content="mkdocs-1.2.1, mkdocs-material-7.1.8"><title>PDP - EDWtoDISC</title><link rel=stylesheet href=../../assets/stylesheets/main.ca7ac06f.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.f1a3b89f.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><link rel=stylesheet href=../../assets/_mkdocstrings.css></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#src.EDWtoDISC.PDP class=md-skip> Skip to content </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title=EDWtoDISC class="md-header__button md-logo" aria-label=EDWtoDISC data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> EDWtoDISC </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> PDP </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo aria-label="Switch to dark mode" type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red aria-label="Switch to light mode" type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <div class=md-header__source> <a href=https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> Bitbucket/EDWtoDISC </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../.. class=md-tabs__link> Home </a> </li> <li class=md-tabs__item> <a href=../../getting-started/ class=md-tabs__link> Getting started </a> </li> <li class=md-tabs__item> <a href=./ class="md-tabs__link md-tabs__link--active"> Code Reference </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title=EDWtoDISC class="md-nav__button md-logo" aria-label=EDWtoDISC data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> EDWtoDISC </label> <div class=md-nav__source> <a href=https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> Bitbucket/EDWtoDISC </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../.. class=md-nav__link> Home </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> Getting started <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label="Getting started" data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> Getting started </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../getting-started/ class=md-nav__link> Installation </a> </li> <li class=md-nav__item> <a href=../../command-line-tool/ class=md-nav__link> Command Line Tool </a> </li> <li class=md-nav__item> <a href=../../jupyter-notebook/ class=md-nav__link> Jupyter Notebook </a> </li> <li class=md-nav__item> <a href=../../ide/ class=md-nav__link> IDE </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--active md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3 checked> <label class=md-nav__link for=__nav_3> Code Reference <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label="Code Reference" data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> Code Reference </label> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" data-md-toggle=toc type=checkbox id=__toc> <label class="md-nav__link md-nav__link--active" for=__toc> PDP <span class="md-nav__icon md-icon"></span> </label> <a href=./ class="md-nav__link md-nav__link--active"> PDP </a> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP class=md-nav__link> src.EDWtoDISC.PDP </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines class=md-nav__link> Pipelines </a> <nav class=md-nav aria-label=Pipelines> <ul class=md-nav__list> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.__init__ class=md-nav__link> __init__() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.as_testrun class=md-nav__link> as_testrun() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.download_DARWIN class=md-nav__link> download_DARWIN() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.extract_edw_deals class=md-nav__link> extract_edw_deals() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.from_DARWIN class=md-nav__link> from_DARWIN() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.request_user_input class=md-nav__link> request_user_input() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_1A class=md-nav__link> run_pipeline_1A() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_2AB class=md-nav__link> run_pipeline_2AB() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_3A_4A class=md-nav__link> run_pipeline_3A_4A() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.serializer class=md-nav__link> serializer() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.setup_logger class=md-nav__link> setup_logger() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.title_generator class=md-nav__link> title_generator() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.to_DARWIN class=md-nav__link> to_DARWIN() </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=../CreateBackups/ class=md-nav__link> CreateBackups </a> </li> <li class=md-nav__item> <a href=../CreateDictionaries/ class=md-nav__link> CreateDictionaries </a> </li> <li class=md-nav__item> <a href=../CreateTables/ class=md-nav__link> CreateTables </a> </li> <li class=md-nav__item> <a href=../EDWSubmissionTracker/ class=md-nav__link> EDWSubmissionTracker </a> </li> <li class=md-nav__item> <a href=../InitializeClients/ class=md-nav__link> InitializeClients </a> </li> <li class=md-nav__item> <a href=../InitializeProxyServer/ class=md-nav__link> InitializeProxyServer </a> </li> <li class=md-nav__item> <a href=../Preprocesser/ class=md-nav__link> Preprocesser </a> </li> <li class=md-nav__item> <a href=../ToDISC/ class=md-nav__link> ToDISC </a> </li> <li class=md-nav__item> <a href=../ToNameSpace/ class=md-nav__link> ToNameSpace </a> </li> <li class=md-nav__item> <a href=../UpdateDeals/ class=md-nav__link> UpdateDeals </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> Table of contents </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP class=md-nav__link> src.EDWtoDISC.PDP </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines class=md-nav__link> Pipelines </a> <nav class=md-nav aria-label=Pipelines> <ul class=md-nav__list> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.__init__ class=md-nav__link> __init__() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.as_testrun class=md-nav__link> as_testrun() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.download_DARWIN class=md-nav__link> download_DARWIN() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.extract_edw_deals class=md-nav__link> extract_edw_deals() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.from_DARWIN class=md-nav__link> from_DARWIN() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.request_user_input class=md-nav__link> request_user_input() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_1A class=md-nav__link> run_pipeline_1A() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_2AB class=md-nav__link> run_pipeline_2AB() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_3A_4A class=md-nav__link> run_pipeline_3A_4A() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.serializer class=md-nav__link> serializer() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.setup_logger class=md-nav__link> setup_logger() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.title_generator class=md-nav__link> title_generator() </a> </li> <li class=md-nav__item> <a href=#src.EDWtoDISC.PDP.Pipelines.to_DARWIN class=md-nav__link> to_DARWIN() </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1>PDP</h1> <div class="doc doc-object doc-module"> <a id=src.EDWtoDISC.PDP></a> <div class="doc doc-contents first"> <p><a class="magiclink magiclink-github magiclink-mention" href=https://github.com/author title="GitHub User: author">@author</a>: aarabil / Aarab Ilias </p> <p><a href=mailto:ilias.aarab@ecb.europa.eu>&#105;&#108;&#105;&#97;&#115;&#46;&#97;&#97;&#114;&#97;&#98;&#64;&#101;&#99;&#98;&#46;&#101;&#117;&#114;&#111;&#112;&#97;&#46;&#101;&#117;</a></p> <p>ESRB | Beyond Banking Team | Securitisation Monitor | EDW Data Production Pipeline 2021</p> <p>Main class to initialize and maintain Pipelines in production: See README.md for PDP information </p> <p>The Pipelines class is used to initialize and maintain the EDW Data Production Pipeline 2021 which pushes deal submissions stored in EDW's database to a Parquet optimized table within DISC, leveraging HDFS and queryable through Impala. </p> <p>Includes the full set of pipelines; 1-&gt;2A (,2B) -&gt; 3A -&gt; 4A. </p> <p>Keeps track of the latest deal submissions from EDW's database and updates the Parquet table in DISC accordingly. </p> <p>Production is static for the moment due to security concerns and the adhoc nature of the Pipelines. The accompanying main.py should be run monthly to keep Parquet table well updated. </p> <p>Including: * Pipeline 1 * Pipeline 2A + 2B * Pipeline 3A + 4A</p> <div class="doc doc-children"> <div class="doc doc-object doc-class"> <h2 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines> <code>Pipelines</code> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines title="Permanent link">&para;</a></h2> <div class="doc doc-contents "> <p>The Pipelines class is used to initialize</p> <p>and maintain the EDW Data Production Pipeline 2021 which pushes deal submissions stored in EDW's database to a Parquet optimized table within DISC, leveraging HDFS and queryable through Impala. Includes the full set of pipelines; 1-&gt;2A (,2B) -&gt; 3A -&gt; 4A. Keeps track of the latest deal submissions from EDW's database and updates the Parquet table in DISC accordingly.</p> <div class="doc doc-children"> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.__init__> <code class="highlight language-python"><span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>datalab</span><span class=o>=</span><span class=s1>&#39;lab_org_esrb&#39;</span><span class=p>,</span> <span class=n>tbl_name</span><span class=o>=</span><span class=s1>&#39;edw_rmbs_loan&#39;</span><span class=p>,</span> <span class=n>abs_type</span><span class=o>=</span><span class=s1>&#39;rmbs&#39;</span><span class=p>,</span> <span class=n>data_level</span><span class=o>=</span><span class=s1>&#39;lld&#39;</span><span class=p>,</span> <span class=n>tbl_type</span><span class=o>=</span><span class=s1>&#39;EXTERNAL&#39;</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-special"><code>special</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.__init__ title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>datalab</code></td> <td><code>str</code></td> <td><p>Name of the self._datalab that will be used to create/update tables. In case new_tables=False the self._datalab needs to contain tables matching with self._tbl_name, by default "lab_org_esrb"</p></td> <td><code>&#39;lab_org_esrb&#39;</code></td> </tr> <tr> <td><code>tbl_name</code></td> <td><code>str</code></td> <td><p>Name of the final parquet table (if non-existing in self._datalab a new table will be created), by default "edw_rmbs_loan"</p></td> <td><code>&#39;edw_rmbs_loan&#39;</code></td> </tr> <tr> <td><code>abs_type</code></td> <td><code>str</code></td> <td><p>Asset backed security type to get from EDW. Valid options are: "rmbs".</p></td> <td><code>&#39;rmbs&#39;</code></td> </tr> <tr> <td><code>data_level</code></td> <td><code>str</code></td> <td><p>Either "lln" for loan-level data or "bld" for bond-level data. Currently supports only "lln".</p></td> <td><code>&#39;lld&#39;</code></td> </tr> <tr> <td><code>tbl_type</code></td> <td><code>str</code></td> <td><p>Either "EXTERNAL" or an empty string "" (i.e. a managed/internal table), by default "EXTERNAL"</p></td> <td><code>&#39;EXTERNAL&#39;</code></td> </tr> </tbody> </table> <p><strong>Returns:</strong></p> <table> <thead> <tr> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td><code>Pipelines object</code></td> <td><p>production pipelines to ETL loan-level EDW data</p></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span>
+    <span class=bp>self</span><span class=p>,</span>
+    <span class=n>datalab</span><span class=o>=</span><span class=s2>&quot;lab_org_esrb&quot;</span><span class=p>,</span>
+    <span class=n>tbl_name</span><span class=o>=</span><span class=s2>&quot;edw_rmbs_loan&quot;</span><span class=p>,</span>
+    <span class=n>abs_type</span><span class=o>=</span> <span class=s2>&quot;rmbs&quot;</span><span class=p>,</span> <span class=c1>#currently only rmbs, </span>
+    <span class=n>data_level</span><span class=o>=</span> <span class=s2>&quot;lld&quot;</span><span class=p>,</span> <span class=c1>#currently only lld</span>
+    <span class=c1># path_datalab=&quot;/data/lab/org_esrb/&quot;,</span>
+    <span class=c1># path_disc_data=&quot;/data/lab/org_esrb/share/EDW/rmbs/lld&quot;,</span>
+    <span class=n>tbl_type</span><span class=o>=</span><span class=s2>&quot;EXTERNAL&quot;</span><span class=p>,</span>
+<span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;</span>
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    datalab : str, optional</span>
+<span class=sd>        Name of the self._datalab that will be used to create/update tables.</span>
+<span class=sd>        In case new_tables=False the self._datalab needs to contain tables matching with</span>
+<span class=sd>        self._tbl_name, by default &quot;lab_org_esrb&quot;</span>
+<span class=sd>    tbl_name : str, optional</span>
+<span class=sd>        Name of the final parquet table (if non-existing in self._datalab a new table will be created),</span>
+<span class=sd>        by default &quot;edw_rmbs_loan&quot;</span>
+<span class=sd>    abs_type : str, optional</span>
+<span class=sd>        Asset backed security type to get from EDW. Valid options are: &quot;rmbs&quot;.</span>
+<span class=sd>    data_level : str, optional</span>
+<span class=sd>        Either &quot;lln&quot; for loan-level data or &quot;bld&quot; for bond-level data. Currently supports only &quot;lln&quot;.</span>
+<span class=sd>    tbl_type : str, optional</span>
+<span class=sd>        Either &quot;EXTERNAL&quot; or an empty string &quot;&quot; (i.e. a managed/internal table), by default &quot;EXTERNAL&quot;</span>
+
+<span class=sd>    Returns</span>
+<span class=sd>    -------</span>
+<span class=sd>    Pipelines object</span>
+<span class=sd>        production pipelines to ETL loan-level EDW data</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># User input</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_datalab</span> <span class=o>=</span> <span class=n>datalab</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_tbl_name</span> <span class=o>=</span> <span class=n>tbl_name</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_path_datalab</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;/data/lab/</span><span class=si>{</span><span class=n>datalab</span><span class=p>[</span><span class=mi>4</span><span class=p>:]</span><span class=si>}</span><span class=s2>/&quot;</span> <span class=c1>#path_datalab</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_path_disc_data</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_datalab</span><span class=si>}</span><span class=s2>/share/EDW/</span><span class=si>{</span><span class=n>abs_type</span><span class=si>}</span><span class=s2>/</span><span class=si>{</span><span class=n>data_level</span><span class=si>}</span><span class=s2>/&quot;</span> <span class=c1>#path_disc_data</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_tbl_type</span> <span class=o>=</span> <span class=n>tbl_type</span>
+    <span class=c1># Default inputs</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>new_tables</span> <span class=o>=</span> <span class=kc>False</span>
+    <span class=c1># private attributes</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_testrun</span> <span class=o>=</span> <span class=kc>False</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_path_root</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>dirname</span><span class=p>(</span><span class=vm>__file__</span><span class=p>),</span> <span class=s2>&quot;miscdata&quot;</span><span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_path_trackers</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_root</span><span class=p>,</span> <span class=s2>&quot;trackers&quot;</span><span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_connections</span> <span class=o>=</span> <span class=n>ToNameSpace</span><span class=p>(</span>
+        <span class=p>{</span>
+            <span class=s2>&quot;proxies&quot;</span><span class=p>:</span> <span class=p>{</span><span class=s2>&quot;HTTP&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;HTTPS&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>},</span>
+            <span class=s2>&quot;clients&quot;</span><span class=p>:</span> <span class=p>{</span><span class=s2>&quot;dc&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;pc&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>},</span>
+        <span class=p>}</span>
+    <span class=p>)</span>  <span class=c1># dictionary converted to Namespace object</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span> <span class=o>=</span> <span class=n>ToNameSpace</span><span class=p>(</span>
+        <span class=p>{</span><span class=s2>&quot;EDW_submissions&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;DISC_submissions&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>}</span>
+    <span class=p>)</span>  <span class=c1># empty dictionary converted to Namespace object</span>
+    <span class=k>if</span> <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>isfile</span><span class=p>(</span>
+        <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>)</span>
+    <span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_csv</span><span class=p>(</span>
+            <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>),</span>
+            <span class=n>header</span><span class=o>=</span><span class=s2>&quot;infer&quot;</span><span class=p>,</span>
+        <span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>move</span> <span class=o>=</span> <span class=n>ToNameSpace</span><span class=p>(</span>
+        <span class=p>{</span><span class=s2>&quot;dir_backup&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;status&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;restore_meta&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>}</span>
+    <span class=p>)</span>  <span class=c1># empty dictionary converted to Namespace object</span>
+    <span class=c1># empty dictionary converted to Namespace object</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>logs</span> <span class=o>=</span> <span class=n>ToNameSpace</span><span class=p>(</span>
+        <span class=p>{</span>
+            <span class=s2>&quot;loggers&quot;</span><span class=p>:</span> <span class=p>{</span><span class=s2>&quot;pipelines&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;backups&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>},</span>
+            <span class=s2>&quot;handlers&quot;</span><span class=p>:</span> <span class=p>{</span><span class=s2>&quot;pipelines&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>,</span> <span class=s2>&quot;backups&quot;</span><span class=p>:</span> <span class=kc>None</span><span class=p>},</span>
+        <span class=p>}</span>
+    <span class=p>)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>initialize_main_loggers</span><span class=p>()</span>
+
+    <span class=c1># Create dir&#39;s</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=n>os</span><span class=o>.</span><span class=n>makedirs</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_root</span><span class=p>,</span> <span class=s2>&quot;trackers&quot;</span><span class=p>))</span>
+    <span class=k>except</span> <span class=ne>FileExistsError</span><span class=p>:</span>
+        <span class=k>pass</span>  <span class=c1># directory already exists</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=n>os</span><span class=o>.</span><span class=n>makedirs</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_root</span><span class=p>,</span> <span class=s2>&quot;tmp_csv_files&quot;</span><span class=p>))</span>
+    <span class=k>except</span> <span class=ne>FileExistsError</span><span class=p>:</span>
+        <span class=k>pass</span>  <span class=c1># directory already exists</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=n>os</span><span class=o>.</span><span class=n>makedirs</span><span class=p>(</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_path_root</span><span class=p>,</span> <span class=s2>&quot;dictionaries&quot;</span><span class=p>))</span>
+    <span class=k>except</span> <span class=ne>FileExistsError</span><span class=p>:</span>
+        <span class=k>pass</span>  <span class=c1># directory already exists</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.as_testrun> <code class="highlight language-python"><span class=n>as_testrun</span><span class=p>(</span><span class=n>datalab</span><span class=o>=</span><span class=s1>&#39;lab_org_esrb&#39;</span><span class=p>,</span> <span class=n>abs_type</span><span class=o>=</span><span class=s1>&#39;rmbs&#39;</span><span class=p>,</span> <span class=n>data_level</span><span class=o>=</span><span class=s1>&#39;lld&#39;</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.as_testrun title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Alternative constructor that initializes a Pipelines object with testing attributes.</p> <p>Used when testing out the pipelines.</p> <p><strong>Returns:</strong></p> <table> <thead> <tr> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td><code>Pipelines object</code></td> <td><p>Pipelines with testing attributes</p></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@classmethod</span>
+<span class=k>def</span> <span class=nf>as_testrun</span><span class=p>(</span>
+    <span class=bp>cls</span><span class=p>,</span>
+    <span class=n>datalab</span><span class=o>=</span><span class=s2>&quot;lab_org_esrb&quot;</span><span class=p>,</span>
+    <span class=n>abs_type</span><span class=o>=</span> <span class=s2>&quot;rmbs&quot;</span><span class=p>,</span> <span class=c1>#currently only rmbs, </span>
+    <span class=n>data_level</span><span class=o>=</span> <span class=s2>&quot;lld&quot;</span><span class=p>,</span> <span class=c1>#currently only lld</span>
+<span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Alternative constructor that initializes a Pipelines object with testing attributes.</span>
+<span class=sd>    Used when testing out the pipelines.</span>
+
+<span class=sd>    Returns</span>
+<span class=sd>    -------</span>
+<span class=sd>    Pipelines object</span>
+<span class=sd>        Pipelines with testing attributes</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=c1># Set test args</span>
+    <span class=n>tbl_name</span> <span class=o>=</span> <span class=s2>&quot;tmp_testing_table&quot;</span>
+    <span class=n>tbl_type</span> <span class=o>=</span> <span class=s2>&quot;&quot;</span>  <span class=c1># empty string i.e. a managed table</span>
+    <span class=c1># if &quot;test&quot; not in path_disc_data:</span>
+    <span class=c1>#     # Add testing dir in path</span>
+    <span class=c1>#     idx = [eachIndex.start() for eachIndex in re.finditer(&quot;/&quot;, path_disc_data)]</span>
+    <span class=c1>#     path_disc_data = (</span>
+    <span class=c1>#         path_disc_data[0 : idx[-2]] + &quot;/testing&quot; + path_disc_data[idx[-2] :]</span>
+    <span class=c1>#     )</span>
+
+    <span class=c1># Initiate alternative constructor</span>
+    <span class=n>obj_as_testrun</span> <span class=o>=</span> <span class=bp>cls</span><span class=p>(</span><span class=n>datalab</span><span class=p>,</span> <span class=n>tbl_name</span><span class=p>,</span> <span class=n>abs_type</span><span class=p>,</span> <span class=n>data_level</span><span class=p>,</span> <span class=n>tbl_type</span><span class=p>)</span>
+    <span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>_path_disc_data</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>_path_datalab</span><span class=si>}</span><span class=s2>/share/EDW/testing/</span><span class=si>{</span><span class=n>abs_type</span><span class=si>}</span><span class=s2>/</span><span class=si>{</span><span class=n>data_level</span><span class=si>}</span><span class=s2>/&quot;</span>
+    <span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>_testrun</span> <span class=o>=</span> <span class=kc>True</span>
+    <span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>_number_of_test_deals</span> <span class=o>=</span> <span class=p>{</span><span class=s2>&quot;new_tables&quot;</span><span class=p>:</span> <span class=mi>2</span><span class=p>,</span> <span class=s2>&quot;update_tables&quot;</span><span class=p>:</span> <span class=mi>4</span><span class=p>}</span>
+    <span class=c1># create backup in case first run of testrun</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=k>with</span> <span class=nb>open</span><span class=p>(</span>
+            <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>_path_root</span><span class=p>,</span> <span class=s2>&quot;logs/pipelines.log&quot;</span><span class=p>)</span>
+        <span class=p>)</span> <span class=k>as</span> <span class=n>log</span><span class=p>:</span>
+            <span class=n>last_log</span> <span class=o>=</span> <span class=n>log</span><span class=o>.</span><span class=n>read</span><span class=p>()</span><span class=o>.</span><span class=n>splitlines</span><span class=p>()[</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span>
+        <span class=k>if</span> <span class=s2>&quot;testrun&quot;</span> <span class=ow>in</span> <span class=n>last_log</span> <span class=ow>and</span> <span class=s2>&quot;new&quot;</span> <span class=ow>in</span> <span class=n>last_log</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;Testrun initialized without new backup!&quot;</span><span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>mover</span><span class=p>(</span>
+                <span class=n>restore</span><span class=o>=</span><span class=kc>False</span>
+            <span class=p>)</span>  <span class=c1># push current dir&#39;s to backup folder</span>
+    <span class=k>except</span> <span class=p>(</span><span class=ne>FileNotFoundError</span><span class=p>,</span> <span class=ne>IndexError</span><span class=p>):</span>
+        <span class=n>obj_as_testrun</span><span class=o>.</span><span class=n>mover</span><span class=p>(</span><span class=n>restore</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span>  <span class=c1># push current dir&#39;s to backup folder</span>
+    <span class=k>return</span> <span class=n>obj_as_testrun</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.download_DARWIN> <code class="highlight language-python"><span class=n>download_DARWIN</span><span class=p>(</span><span class=n>local_path</span><span class=p>,</span> <span class=n>file_name</span><span class=o>=</span><span class=s1>&#39;disc_submissions_rmb.csv&#39;</span><span class=p>,</span> <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=mi>290298255</span><span class=p>,</span> <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=s1>&#39;EDWtoDISC&#39;</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.download_DARWIN title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>provides a programatic interface to establish a connection to Darwin and to download files from specified Darwin folders.</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>local_path</code></td> <td><code>str</code></td> <td><p>(Relative) Path to store DARWIN files</p></td> <td><em>required</em></td> </tr> <tr> <td><code>file_name</code></td> <td><code>str</code></td> <td><p>Name of the file to download, by default "disc_submissions_rmb.csv" May include the wildcard *.</p></td> <td><code>&#39;disc_submissions_rmb.csv&#39;</code></td> </tr> <tr> <td><code>darwin_root_folder_id</code></td> <td><code>int</code></td> <td><p>node of the root folder (last set of digits of the DARWIN folder URL), by default 290298255</p></td> <td><code>290298255</code></td> </tr> <tr> <td><code>darwin_sub_folder</code></td> <td><code>str</code></td> <td><p>use None or empty string if downloading directly to the root folder, by default "EDWtoDISC"</p></td> <td><code>&#39;EDWtoDISC&#39;</code></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@staticmethod</span>
+<span class=k>def</span> <span class=nf>download_DARWIN</span><span class=p>(</span>
+    <span class=n>local_path</span><span class=p>,</span>
+    <span class=n>file_name</span><span class=o>=</span><span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>,</span>
+    <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=mi>290298255</span><span class=p>,</span>
+    <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=s2>&quot;EDWtoDISC&quot;</span><span class=p>,</span>
+<span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;provides a programatic interface to establish a connection to Darwin and to download files from specified Darwin folders.</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    local_path : str</span>
+<span class=sd>        (Relative) Path to store DARWIN files</span>
+<span class=sd>    file_name : str, optional</span>
+<span class=sd>        Name of the file to download, by default &quot;disc_submissions_rmb.csv&quot;</span>
+<span class=sd>        May include the wildcard *.</span>
+<span class=sd>    darwin_root_folder_id : int, optional</span>
+<span class=sd>        node of the root folder (last set of digits of the DARWIN folder URL), by default 290298255</span>
+<span class=sd>    darwin_sub_folder : str, optional</span>
+<span class=sd>        use None or empty string if downloading directly to the root folder, by default &quot;EDWtoDISC&quot;</span>
+
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=n>darwin_disseminator</span> <span class=o>=</span> <span class=n>darwin_dis</span><span class=p>(</span><span class=n>darwin_root_folder_id</span><span class=p>)</span>
+    <span class=n>darwin_disseminator</span><span class=o>.</span><span class=n>download_files</span><span class=p>(</span>
+        <span class=n>darwin_sub_folder</span><span class=p>,</span> <span class=n>local_path</span><span class=o>=</span><span class=n>local_path</span><span class=p>,</span> <span class=n>fnpattern</span><span class=o>=</span><span class=n>file_name</span>
+    <span class=p>)</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.extract_edw_deals> <code class="highlight language-python"><span class=n>extract_edw_deals</span><span class=p>(</span><span class=bp>self</span><span class=p>)</span></code> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.extract_edw_deals title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Extracts the names of the unique set of deals available at EDW</p> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=k>def</span> <span class=nf>extract_edw_deals</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Extracts the names of the unique set of deals available at EDW&quot;&quot;&quot;</span>
+    <span class=n>edw_submissions</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>EDW_submissions</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>unique_edw_deals</span> <span class=o>=</span> <span class=n>edw_submissions</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>unique</span><span class=p>()</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>edw_deals</span> <span class=o>=</span> <span class=p>[</span>
+        <span class=n>edw_submissions</span><span class=p>[</span><span class=n>edw_submissions</span><span class=o>.</span><span class=n>edcode</span> <span class=o>==</span> <span class=n>everyDeal</span><span class=p>]</span>
+        <span class=k>for</span> <span class=n>everyDeal</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>unique_edw_deals</span>
+    <span class=p>]</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.from_DARWIN> <code class="highlight language-python"><span class=n>from_DARWIN</span><span class=p>(</span><span class=n>datalab</span><span class=o>=</span><span class=s1>&#39;lab_org_esrb&#39;</span><span class=p>,</span> <span class=n>tbl_name</span><span class=o>=</span><span class=s1>&#39;edw_rmbs_loan&#39;</span><span class=p>,</span> <span class=n>abs_type</span><span class=o>=</span><span class=s1>&#39;rmbs&#39;</span><span class=p>,</span> <span class=n>data_level</span><span class=o>=</span><span class=s1>&#39;lld&#39;</span><span class=p>,</span> <span class=n>tbl_type</span><span class=o>=</span><span class=s1>&#39;EXTERNAL&#39;</span><span class=p>,</span> <span class=n>file_name</span><span class=o>=</span><span class=s1>&#39;disc_submissions_rmb.csv&#39;</span><span class=p>,</span> <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=mi>290298255</span><span class=p>,</span> <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=s1>&#39;EDWtoDISC&#39;</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-classmethod"><code>classmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.from_DARWIN title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Alternative constructor that initializes a Pipelines object with an existing submission tracker located in DARWIN.</p> <p><strong>Returns:</strong></p> <table> <thead> <tr> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td><code>Pipelines object</code></td> <td><p>Pipelines based on an existing submission tracker</p></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@classmethod</span>
+<span class=k>def</span> <span class=nf>from_DARWIN</span><span class=p>(</span>
+    <span class=bp>cls</span><span class=p>,</span>
+    <span class=n>datalab</span><span class=o>=</span><span class=s2>&quot;lab_org_esrb&quot;</span><span class=p>,</span>
+    <span class=n>tbl_name</span><span class=o>=</span><span class=s2>&quot;edw_rmbs_loan&quot;</span><span class=p>,</span>
+    <span class=n>abs_type</span><span class=o>=</span> <span class=s2>&quot;rmbs&quot;</span><span class=p>,</span> <span class=c1>#currently only rmbs, </span>
+    <span class=n>data_level</span><span class=o>=</span> <span class=s2>&quot;lld&quot;</span><span class=p>,</span> <span class=c1>#currently only lld</span>
+    <span class=n>tbl_type</span><span class=o>=</span><span class=s2>&quot;EXTERNAL&quot;</span><span class=p>,</span>
+    <span class=c1># DARWIN specific input</span>
+    <span class=n>file_name</span><span class=o>=</span><span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>,</span>
+    <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=mi>290298255</span><span class=p>,</span>
+    <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=s2>&quot;EDWtoDISC&quot;</span><span class=p>,</span>
+<span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Alternative constructor that initializes a Pipelines object with an existing submission tracker located in DARWIN.</span>
+
+<span class=sd>    Returns</span>
+<span class=sd>    -------</span>
+<span class=sd>    Pipelines object</span>
+<span class=sd>        Pipelines based on an existing submission tracker</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># Initiate alternative constructor</span>
+    <span class=n>obj_from_darwin</span> <span class=o>=</span> <span class=bp>cls</span><span class=p>(</span><span class=n>datalab</span><span class=p>,</span> <span class=n>tbl_name</span><span class=p>,</span> <span class=n>abs_type</span><span class=p>,</span> <span class=n>data_level</span><span class=p>,</span> <span class=n>tbl_type</span><span class=p>)</span>
+
+    <span class=c1># Delete current tracker if available</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=n>os</span><span class=o>.</span><span class=n>remove</span><span class=p>(</span>
+            <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>obj_from_darwin</span><span class=o>.</span><span class=n>_path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>)</span>
+        <span class=p>)</span>
+    <span class=k>except</span> <span class=ne>OSError</span><span class=p>:</span>
+        <span class=k>pass</span>
+    <span class=c1># Push tracker from DARWIN into local env</span>
+    <span class=n>obj_from_darwin</span><span class=o>.</span><span class=n>download_DARWIN</span><span class=p>(</span>
+        <span class=n>local_path</span><span class=o>=</span><span class=n>obj_from_darwin</span><span class=o>.</span><span class=n>_path_trackers</span><span class=p>,</span>
+        <span class=n>file_name</span><span class=o>=</span><span class=n>file_name</span><span class=p>,</span>
+        <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=n>darwin_root_folder_id</span><span class=p>,</span>
+        <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=n>darwin_sub_folder</span><span class=p>,</span>
+    <span class=p>)</span>
+
+    <span class=c1># Load in tracker</span>
+    <span class=n>obj_from_darwin</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_csv</span><span class=p>(</span>
+        <span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>obj_from_darwin</span><span class=o>.</span><span class=n>_path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>),</span>
+        <span class=n>header</span><span class=o>=</span><span class=s2>&quot;infer&quot;</span><span class=p>,</span>
+    <span class=p>)</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.request_user_input> <code class="highlight language-python"><span class=n>request_user_input</span><span class=p>()</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.request_user_input title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Set of user input requests to initialize Pipelines accordingly.</p> <p><strong>Returns:</strong></p> <table> <thead> <tr> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td><code>NameSpace object</code></td> <td><p>user input saved as NameSpace object</p></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@staticmethod</span>
+<span class=k>def</span> <span class=nf>request_user_input</span><span class=p>():</span>
+    <span class=sd>&quot;&quot;&quot;Set of user input requests to initialize Pipelines accordingly.</span>
+
+<span class=sd>    Returns</span>
+<span class=sd>    -------</span>
+<span class=sd>    NameSpace object</span>
+<span class=sd>        user input saved as NameSpace object</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># main user args</span>
+    <span class=n>yes</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&quot;y&quot;</span><span class=p>,</span> <span class=s2>&quot;yes&quot;</span><span class=p>]</span>
+    <span class=n>no</span> <span class=o>=</span> <span class=p>[</span><span class=s2>&quot;n&quot;</span><span class=p>,</span> <span class=s2>&quot;no&quot;</span><span class=p>]</span>
+
+    <span class=c1># Testrun request</span>
+    <span class=n>TESTRUN</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s2>&quot;Run a testrun? [y/n] &quot;</span><span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+    <span class=k>while</span> <span class=n>TESTRUN</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>yes</span> <span class=o>+</span> <span class=n>no</span><span class=p>:</span>
+        <span class=n>TESTRUN</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s2>&quot;Run a testrun? [y/n] &quot;</span><span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+    <span class=k>if</span> <span class=n>TESTRUN</span> <span class=ow>in</span> <span class=n>yes</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; Pipelines will be created within a testrun environment.&quot;</span><span class=p>)</span>
+    <span class=k>elif</span> <span class=n>TESTRUN</span> <span class=ow>in</span> <span class=n>no</span><span class=p>:</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; Pipelines will be executed in production mode.&quot;</span><span class=p>)</span>
+
+    <span class=k>if</span> <span class=n>TESTRUN</span> <span class=ow>in</span> <span class=n>no</span><span class=p>:</span>
+        <span class=c1># New tables request</span>
+        <span class=n>NEW_TABLES</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span>
+            <span class=s2>&quot;Create new tables? If no, existing tables will be &quot;</span>
+            <span class=s2>&quot;updated with latest deal submissions. [y/n] &quot;</span>
+        <span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+        <span class=k>while</span> <span class=n>NEW_TABLES</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>yes</span> <span class=o>+</span> <span class=n>no</span><span class=p>:</span>
+            <span class=n>NEW_TABLES</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span>
+                <span class=s2>&quot;Create new tables? If no, existing tables will be &quot;</span>
+                <span class=s2>&quot;updated with latest deal submissions. [y/n] &quot;</span>
+            <span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+        <span class=k>if</span> <span class=n>NEW_TABLES</span> <span class=ow>in</span> <span class=p>[</span><span class=s2>&quot;y&quot;</span><span class=p>,</span> <span class=s2>&quot;yes&quot;</span><span class=p>]</span> <span class=ow>and</span> <span class=n>TESTRUN</span> <span class=ow>in</span> <span class=p>[</span><span class=s2>&quot;n&quot;</span><span class=p>,</span> <span class=s2>&quot;no&quot;</span><span class=p>]:</span>
+            <span class=n>verify</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span>
+                <span class=s2>&quot;Are you sure you want to delete existing DISC tables &quot;</span>
+                <span class=s2>&quot;and create new ones (not recommended!)? [y/n] &quot;</span>
+            <span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+            <span class=k>if</span> <span class=n>verify</span> <span class=ow>in</span> <span class=p>[</span><span class=s2>&quot;y&quot;</span><span class=p>,</span> <span class=s2>&quot;yes&quot;</span><span class=p>]:</span>
+                <span class=nb>print</span><span class=p>(</span>
+                    <span class=s2>&quot;&gt;&gt;&gt; Existing tables will be deleted and replaced with new ones.&quot;</span>
+                <span class=p>)</span>
+            <span class=k>else</span><span class=p>:</span>
+                <span class=n>NEW_TABLES</span> <span class=o>=</span> <span class=s2>&quot;no&quot;</span>
+                <span class=nb>print</span><span class=p>(</span>
+                    <span class=s2>&quot;&gt;&gt;&gt; Existing tables wil be updated with latest deal submissions.&quot;</span>
+                <span class=p>)</span>
+        <span class=k>else</span><span class=p>:</span>
+            <span class=nb>print</span><span class=p>(</span>
+                <span class=s2>&quot;&gt;&gt;&gt; Existing tables wil be updated with latest deal submissions.&quot;</span>
+            <span class=p>)</span>
+    <span class=k>else</span><span class=p>:</span>
+        <span class=n>NEW_TABLES</span> <span class=o>=</span> <span class=kc>None</span>
+
+    <span class=c1># TODO: remov hardcoded type and level</span>
+    <span class=n>PATHS</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s2>&quot;Use ESRB datalab? [y/n]: &quot;</span><span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+    <span class=k>while</span> <span class=n>PATHS</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>yes</span> <span class=o>+</span> <span class=n>no</span><span class=p>:</span>
+        <span class=n>PATHS</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s2>&quot;Use standard ESRB datalab paths? [y/n]: &quot;</span><span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+    <span class=k>if</span> <span class=n>PATHS</span> <span class=ow>in</span> <span class=n>yes</span><span class=p>:</span>
+        <span class=n>datalab</span> <span class=o>=</span> <span class=s2>&quot;lab_org_esrb&quot;</span>
+        <span class=n>tbl_name</span> <span class=o>=</span> <span class=s2>&quot;edw_rmbs_loan&quot;</span>
+        <span class=n>abs_type</span> <span class=o>=</span> <span class=s1>&#39;rmbs&#39;</span>
+        <span class=n>data_level</span> <span class=o>=</span> <span class=s1>&#39;lld&#39;</span>
+        <span class=n>path_datalab</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;/data/lab/</span><span class=si>{</span><span class=n>datalab</span><span class=p>[</span><span class=mi>4</span><span class=p>:]</span><span class=si>}</span><span class=s2>&quot;</span> <span class=c1>#path_datalab</span>
+        <span class=n>path_disc_data</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>path_datalab</span><span class=si>}</span><span class=s2>/share/EDW/testing/</span><span class=si>{</span><span class=n>abs_type</span><span class=si>}</span><span class=s2>/</span><span class=si>{</span><span class=n>data_level</span><span class=si>}</span><span class=s2>&quot;</span>
+        <span class=n>tbl_type</span> <span class=o>=</span> <span class=s2>&quot;EXTERNAL&quot;</span>
+    <span class=k>elif</span> <span class=n>PATHS</span> <span class=ow>in</span> <span class=n>no</span><span class=p>:</span>
+        <span class=n>datalab</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span><span class=s2>&quot;Which datalab would you like to use? &quot;</span><span class=p>)</span>
+        <span class=n>tbl_name</span> <span class=o>=</span> <span class=s2>&quot;edw_rmbs_loan&quot;</span>
+        <span class=n>abs_type</span> <span class=o>=</span> <span class=s1>&#39;rmbs&#39;</span>
+        <span class=n>data_level</span> <span class=o>=</span> <span class=s1>&#39;lld&#39;</span>
+        <span class=n>path_datalab</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;/data/lab/</span><span class=si>{</span><span class=n>datalab</span><span class=p>[</span><span class=mi>4</span><span class=p>:]</span><span class=si>}</span><span class=s2>&quot;</span> <span class=c1>#path_datalab</span>
+        <span class=n>path_disc_data</span> <span class=o>=</span> <span class=sa>f</span><span class=s2>&quot;</span><span class=si>{</span><span class=n>path_datalab</span><span class=si>}</span><span class=s2>/share/EDW/testing/</span><span class=si>{</span><span class=n>abs_type</span><span class=si>}</span><span class=s2>/</span><span class=si>{</span><span class=n>data_level</span><span class=si>}</span><span class=s2>&quot;</span>
+        <span class=n>tbl_type</span> <span class=o>=</span> <span class=s2>&quot;EXTERNAL&quot;</span>
+
+    <span class=k>return</span> <span class=n>ToNameSpace</span><span class=p>(</span>
+        <span class=p>{</span>
+            <span class=s2>&quot;testrun&quot;</span><span class=o>.</span><span class=n>upper</span><span class=p>():</span> <span class=n>TESTRUN</span><span class=p>,</span>
+            <span class=s2>&quot;new_tables&quot;</span><span class=o>.</span><span class=n>upper</span><span class=p>():</span> <span class=n>NEW_TABLES</span><span class=p>,</span>
+            <span class=s2>&quot;paths&quot;</span><span class=o>.</span><span class=n>upper</span><span class=p>():</span> <span class=p>{</span>
+                <span class=s2>&quot;datalab&quot;</span><span class=p>:</span> <span class=n>datalab</span><span class=p>,</span>
+                <span class=s2>&quot;tbl_name&quot;</span><span class=p>:</span> <span class=n>tbl_name</span><span class=p>,</span>
+                <span class=s2>&quot;path_datalab&quot;</span><span class=p>:</span> <span class=n>path_datalab</span><span class=p>,</span>
+                <span class=s2>&quot;path_disc_data&quot;</span><span class=p>:</span> <span class=n>path_disc_data</span><span class=p>,</span>
+                <span class=s2>&quot;tbl_type&quot;</span><span class=p>:</span> <span class=n>tbl_type</span><span class=p>,</span>
+            <span class=p>},</span>
+        <span class=p>}</span>
+    <span class=p>)</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.run_pipeline_1A> <code class="highlight language-python"><span class=n>run_pipeline_1A</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>deal</span><span class=p>)</span></code> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_1A title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Activates pipeline 1A, that runs between EDWs database and the user's local environment</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>deal</code></td> <td><code>str</code></td> <td><p>The deal of which the submissions will be downloaded.</p></td> <td><em>required</em></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=k>def</span> <span class=nf>run_pipeline_1A</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>deal</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Activates pipeline 1A, that runs between EDWs database and the user&#39;s local environment</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    deal : str</span>
+<span class=sd>        The deal of which the submissions will be downloaded.</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=bp>self</span><span class=o>.</span><span class=n>title_generator</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;Deal: </span><span class=si>{</span><span class=n>deal</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=si>}</span><span class=s2>&quot;</span><span class=p>)</span>
+
+    <span class=c1>## Download new deals</span>
+    <span class=c1># --------------------</span>
+    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;</span><span class=se>\n</span><span class=s2> &gt;&gt; Initializing Pipeline 1A&quot;</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;&gt;&gt;&gt; Accessing available submissions...&quot;</span><span class=p>)</span>
+
+    <span class=c1># Constrain number of submissions during testrun</span>
+    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_testrun</span> <span class=ow>and</span> <span class=nb>len</span><span class=p>(</span><span class=n>deal</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>2</span><span class=p>:</span>
+        <span class=n>deal</span> <span class=o>=</span> <span class=n>deal</span><span class=p>[</span><span class=mi>0</span><span class=p>:</span><span class=mi>2</span><span class=p>]</span>
+
+    <span class=c1># Ensure proxy_server is running</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_connections</span><span class=o>.</span><span class=n>proxies</span><span class=o>.</span><span class=n>HTTPS</span><span class=p>:</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>initialize_proxy</span><span class=p>()</span>
+
+    <span class=c1># Check whether the disc_sumbission tracker has already been inititialized</span>
+    <span class=k>if</span> <span class=nb>isinstance</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=p>,</span> <span class=n>pd</span><span class=o>.</span><span class=n>DataFrame</span><span class=p>):</span>
+
+        <span class=c1># If so, get current list of deals within pipeline</span>
+        <span class=n>unique_disc_deals</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>unique</span><span class=p>()</span>
+
+        <span class=c1># Check whether we have past submission of the EDW deal we&#39;re looping over</span>
+        <span class=k>if</span> <span class=n>deal</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>unique</span><span class=p>()</span> <span class=ow>in</span> <span class=n>unique_disc_deals</span><span class=p>:</span>
+
+            <span class=c1># If so, check for new submissions of the deal</span>
+            <span class=n>filtr</span> <span class=o>=</span> <span class=p>(</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>edcode</span> <span class=o>==</span> <span class=n>deal</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>unique</span><span class=p>()[</span><span class=mi>0</span><span class=p>]</span>
+            <span class=p>)</span>
+            <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>loc</span><span class=p>[</span><span class=n>filtr</span><span class=p>])</span> <span class=o>&lt;</span> <span class=nb>len</span><span class=p>(</span><span class=n>deal</span><span class=p>):</span>
+
+                <span class=c1># If so, push new submissions through Pipeline 1A</span>
+                <span class=bp>self</span><span class=o>.</span><span class=n>update_deals</span><span class=p>(</span><span class=n>EDW_submissions</span><span class=o>=</span><span class=n>deal</span><span class=p>)</span>
+
+        <span class=k>else</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>update_deals</span><span class=p>(</span><span class=n>EDW_submissions</span><span class=o>=</span><span class=n>deal</span><span class=p>)</span>
+
+    <span class=k>else</span><span class=p>:</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>update_deals</span><span class=p>(</span><span class=n>EDW_submissions</span><span class=o>=</span><span class=n>deal</span><span class=p>)</span>
+
+    <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; All&quot;</span><span class=p>,</span> <span class=n>deal</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=s2>&quot;submissions have been downloaded!&quot;</span><span class=p>)</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.run_pipeline_2AB> <code class="highlight language-python"><span class=n>run_pipeline_2AB</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>deal</span><span class=p>)</span></code> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_2AB title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Activates pipelines 2A and 2B, running between the user's local environment and the DISC environment</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>deal</code></td> <td><code>str</code></td> <td><p>The deal of which the submissions will be pushed to DISC</p></td> <td><em>required</em></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=k>def</span> <span class=nf>run_pipeline_2AB</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>deal</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Activates pipelines 2A and 2B, running between the user&#39;s local environment and the DISC environment</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    deal : str</span>
+<span class=sd>        The deal of which the submissions will be pushed to DISC</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;</span><span class=se>\n</span><span class=s2> &gt;&gt; Initializing Pipelines 2A &amp; 2B&quot;</span><span class=p>)</span>
+
+    <span class=c1># Disable proxies in order to connect with DISC</span>
+    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_connections</span><span class=o>.</span><span class=n>proxies</span><span class=o>.</span><span class=n>HTTPS</span> <span class=o>!=</span> <span class=kc>None</span><span class=p>:</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>initialize_proxy</span><span class=p>(</span><span class=n>delete</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+
+    <span class=c1># Upload to DISC</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>to_disc</span><span class=p>()</span>
+
+    <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; All&quot;</span><span class=p>,</span> <span class=n>deal</span><span class=o>.</span><span class=n>edcode</span><span class=o>.</span><span class=n>iloc</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=s2>&quot;submissions have been uploaded!&quot;</span><span class=p>)</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.run_pipeline_3A_4A> <code class="highlight language-python"><span class=n>run_pipeline_3A_4A</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>new_tables</span><span class=o>=</span><span class=kc>False</span><span class=p>)</span></code> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.run_pipeline_3A_4A title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Activates pipelines 3A and 4A, running between the DISC HDFS environment and the front-end Impala tables</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>new_tables</code></td> <td><code>bool</code></td> <td><p>[Whether to create new tables or to update existing ones], by default False</p></td> <td><code>False</code></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=k>def</span> <span class=nf>run_pipeline_3A_4A</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>new_tables</span><span class=o>=</span><span class=kc>False</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Activates pipelines 3A and 4A, running between the DISC HDFS environment and the front-end Impala tables</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    new_tables : bool, optional</span>
+<span class=sd>        [Whether to create new tables or to update existing ones], by default False</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=c1># print(f&quot;\n &gt;&gt; Initializing Pipelines 3A &amp; 4A&quot;)</span>
+    <span class=bp>self</span><span class=o>.</span><span class=n>title_generator</span><span class=p>(</span><span class=s2>&quot;Initializing Pipelines 3A &amp; 4A&quot;</span><span class=p>)</span>
+
+    <span class=c1># Warn user that this isn&#39;t a testrun</span>
+    <span class=k>if</span> <span class=ow>not</span> <span class=bp>self</span><span class=o>.</span><span class=n>_testrun</span> <span class=ow>and</span> <span class=n>new_tables</span><span class=p>:</span>
+        <span class=n>inp</span> <span class=o>=</span> <span class=nb>input</span><span class=p>(</span>
+            <span class=s2>&quot;Please note that you are NOT running a testrun.</span><span class=se>\n</span><span class=s2> Would you like to continue? [y/n]&quot;</span>
+        <span class=p>)</span><span class=o>.</span><span class=n>lower</span><span class=p>()</span>
+
+    <span class=c1># Proceed with caution</span>
+    <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_testrun</span> <span class=ow>or</span> <span class=n>inp</span> <span class=ow>in</span> <span class=p>[</span><span class=s2>&quot;y&quot;</span><span class=p>,</span> <span class=s2>&quot;yes&quot;</span><span class=p>]</span> <span class=ow>or</span> <span class=ow>not</span> <span class=n>new_tables</span><span class=p>:</span>
+
+        <span class=c1># Disable proxies in order to connect with DISC</span>
+        <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_connections</span><span class=o>.</span><span class=n>proxies</span><span class=o>.</span><span class=n>HTTPS</span> <span class=o>!=</span> <span class=kc>None</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>initialize_proxy</span><span class=p>(</span><span class=n>delete</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
+
+        <span class=bp>self</span><span class=o>.</span><span class=n>create_tables</span><span class=p>(</span><span class=n>new_tables</span><span class=o>=</span><span class=n>new_tables</span><span class=p>)</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.serializer> <code class="highlight language-python"><span class=n>serializer</span><span class=p>(</span><span class=n>storage</span><span class=p>,</span> <span class=n>data</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.serializer title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Adds data to NameSpace objects.</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>storage</code></td> <td><code>NameSpace object</code></td> <td><p>NameSpace object that may contain data already</p></td> <td><em>required</em></td> </tr> <tr> <td><code>data</code></td> <td><code>dictionary</code></td> <td><p>New data to add to the storage</p></td> <td><em>required</em></td> </tr> </tbody> </table> <p><strong>Returns:</strong></p> <table> <thead> <tr> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td><code>NameSpace object</code></td> <td><p>returns the storage with updated data</p></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@staticmethod</span>
+<span class=k>def</span> <span class=nf>serializer</span><span class=p>(</span><span class=n>storage</span><span class=p>,</span> <span class=n>data</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Adds data to NameSpace objects.</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    storage : NameSpace object</span>
+<span class=sd>        NameSpace object that may contain data already</span>
+<span class=sd>    data : dictionary</span>
+<span class=sd>        New data to add to the storage</span>
+
+<span class=sd>    Returns</span>
+<span class=sd>    -------</span>
+<span class=sd>    NameSpace object</span>
+<span class=sd>        returns the storage with updated data</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=c1># Step 1: Convert namespace to dict</span>
+    <span class=n>storage</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span><span class=n>json</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>storage</span><span class=p>,</span> <span class=n>default</span><span class=o>=</span><span class=k>lambda</span> <span class=n>item</span><span class=p>:</span> <span class=nb>vars</span><span class=p>(</span><span class=n>item</span><span class=p>)))</span>
+    <span class=c1># Step 2: Add key-value pairs</span>
+    <span class=n>storage</span> <span class=o>=</span> <span class=p>{</span><span class=o>**</span><span class=n>storage</span><span class=p>,</span> <span class=o>**</span><span class=n>data</span><span class=p>}</span>
+    <span class=c1># Step 3: Convert back to SimpleNamespace object</span>
+    <span class=n>storage</span> <span class=o>=</span> <span class=n>json</span><span class=o>.</span><span class=n>loads</span><span class=p>(</span>
+        <span class=n>json</span><span class=o>.</span><span class=n>dumps</span><span class=p>(</span><span class=n>storage</span><span class=p>),</span> <span class=n>object_hook</span><span class=o>=</span><span class=k>lambda</span> <span class=n>item</span><span class=p>:</span> <span class=n>SimpleNamespace</span><span class=p>(</span><span class=o>**</span><span class=n>item</span><span class=p>)</span>
+    <span class=p>)</span>
+
+    <span class=k>return</span> <span class=n>storage</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.setup_logger> <code class="highlight language-python"><span class=n>setup_logger</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>log_file</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=mi>20</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.setup_logger title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Creates loggers in an easy and flexible way</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>name</code></td> <td><code>str</code></td> <td><p>name of the logger</p></td> <td><em>required</em></td> </tr> <tr> <td><code>log_file</code></td> <td><code>str</code></td> <td><p>path/filename of the logger</p></td> <td><em>required</em></td> </tr> <tr> <td><code>level</code></td> <td><code>loglevel</code></td> <td><p>loglevel to describe to the logger, by default logging.INFO</p></td> <td><code>20</code></td> </tr> </tbody> </table> <p><strong>Returns:</strong></p> <table> <thead> <tr> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td><code>logger</code></td> <td><p>Custom made logger</p></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@staticmethod</span>
+<span class=k>def</span> <span class=nf>setup_logger</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=n>log_file</span><span class=p>,</span> <span class=n>level</span><span class=o>=</span><span class=n>logging</span><span class=o>.</span><span class=n>INFO</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Creates loggers in an easy and flexible way</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    name : str</span>
+<span class=sd>        name of the logger</span>
+<span class=sd>    log_file : str</span>
+<span class=sd>        path/filename of the logger</span>
+<span class=sd>    level : loglevel, optional</span>
+<span class=sd>        loglevel to describe to the logger, by default logging.INFO</span>
+
+<span class=sd>    Returns</span>
+<span class=sd>    -------</span>
+<span class=sd>    logger</span>
+<span class=sd>        Custom made logger</span>
+<span class=sd>    handler</span>
+<span class=sd>        Handler of the logger</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+
+    <span class=n>formatter</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>Formatter</span><span class=p>(</span><span class=s2>&quot;</span><span class=si>%(asctime)s</span><span class=s2>:</span><span class=si>%(levelname)s</span><span class=s2>:</span><span class=si>%(message)s</span><span class=s2>&quot;</span><span class=p>)</span>
+    <span class=n>handler</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>FileHandler</span><span class=p>(</span><span class=n>log_file</span><span class=p>)</span>
+    <span class=n>handler</span><span class=o>.</span><span class=n>setFormatter</span><span class=p>(</span><span class=n>formatter</span><span class=p>)</span>
+
+    <span class=n>logger</span> <span class=o>=</span> <span class=n>logging</span><span class=o>.</span><span class=n>getLogger</span><span class=p>(</span><span class=n>name</span><span class=p>)</span>
+    <span class=n>logger</span><span class=o>.</span><span class=n>setLevel</span><span class=p>(</span><span class=n>level</span><span class=p>)</span>
+    <span class=n>logger</span><span class=o>.</span><span class=n>addHandler</span><span class=p>(</span><span class=n>handler</span><span class=p>)</span>
+
+    <span class=k>return</span> <span class=n>logger</span><span class=p>,</span> <span class=n>handler</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.title_generator> <code class="highlight language-python"><span class=n>title_generator</span><span class=p>(</span><span class=n>title</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.title_generator title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>Generates a formatted title.</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>title</code></td> <td><code>str</code></td> <td><p>title to format</p></td> <td><em>required</em></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@staticmethod</span>
+<span class=k>def</span> <span class=nf>title_generator</span><span class=p>(</span><span class=n>title</span><span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;Generates a formatted title.</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    title : str</span>
+<span class=sd>        title to format</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>centre</span> <span class=o>=</span> <span class=n>shutil</span><span class=o>.</span><span class=n>get_terminal_size</span><span class=p>()</span><span class=o>.</span><span class=n>columns</span>
+    <span class=n>blocker</span> <span class=o>=</span> <span class=s2>&quot;+&quot;</span> <span class=o>*</span> <span class=mi>36</span>
+    <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s2>&quot;</span><span class=se>\n</span><span class=s2> </span><span class=si>{</span><span class=n>blocker</span><span class=si>}</span><span class=s2> </span><span class=si>{</span><span class=n>title</span><span class=si>}</span><span class=s2> </span><span class=si>{</span><span class=n>blocker</span><span class=si>}</span><span class=s2>&quot;</span><span class=o>.</span><span class=n>center</span><span class=p>(</span><span class=n>centre</span><span class=p>))</span>
+</code></pre></div> </details> </div> </div> <div class="doc doc-object doc-method"> <h3 class="doc doc-heading" id=src.EDWtoDISC.PDP.Pipelines.to_DARWIN> <code class="highlight language-python"><span class=n>to_DARWIN</span><span class=p>(</span><span class=n>df</span><span class=p>,</span> <span class=n>darwin_file_name</span><span class=o>=</span><span class=s1>&#39;disc_submissions_rmb.csv&#39;</span><span class=p>,</span> <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=mi>290298255</span><span class=p>,</span> <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=s1>&#39;EDWtoDISC&#39;</span><span class=p>,</span> <span class=n>to_csv_args</span><span class=o>=</span><span class=p>{</span><span class=s1>&#39;header&#39;</span><span class=p>:</span> <span class=s1>&#39;True&#39;</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>:</span> <span class=s1>&#39;False&#39;</span><span class=p>},</span> <span class=n>file_exists_policy</span><span class=o>=</span><span class=s1>&#39;NEW_VERSION&#39;</span><span class=p>)</span></code> <span class="doc doc-properties"> <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small> </span> <a class=headerlink href=#src.EDWtoDISC.PDP.Pipelines.to_DARWIN title="Permanent link">&para;</a></h3> <div class="doc doc-contents "> <p>provides a programatic interface to establish a connection to Darwin and to upload files into the specified Darwin folders.</p> <p><strong>Parameters:</strong></p> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Default</th> </tr> </thead> <tbody> <tr> <td><code>df</code></td> <td><code>Pandas dataFrame</code></td> <td><p>Dataframe to upload to DARWIN</p></td> <td><em>required</em></td> </tr> <tr> <td><code>darwin_file_name</code></td> <td><code>str</code></td> <td><p>Can be different from the local file name, by default "disc_submissions_rmb.csv"</p></td> <td><code>&#39;disc_submissions_rmb.csv&#39;</code></td> </tr> <tr> <td><code>darwin_root_folder_id</code></td> <td><code>int</code></td> <td><p>node of the root folder (last set of digits of the DARWIN folder URL), by default 290298255</p></td> <td><code>290298255</code></td> </tr> <tr> <td><code>darwin_sub_folder</code></td> <td><code>str</code></td> <td><p>use None or empty string if uploading directly to the root folder, by default "EDWtoDISC"</p></td> <td><code>&#39;EDWtoDISC&#39;</code></td> </tr> <tr> <td><code>to_csv_args</code></td> <td><code>dict</code></td> <td><p>a dictionary with all the args to pass to pandas.to_csv, by default {"header": "True", "index": "False"}</p></td> <td><code>{&#39;header&#39;: &#39;True&#39;, &#39;index&#39;: &#39;False&#39;}</code></td> </tr> <tr> <td><code>file_exists_policy</code></td> <td><code>str</code></td> <td><p>When uploading a file - or a set of files - one can choose what to do when a file with the same name already exists in the target Darwin folder. The following options are available: NEW_VERSION: Is the default behaviour. Adds a new version to the existing file. The darwin node_id will be the same. DELETE_OLD: Deletes the existing darwin file (all versions) and adds the new file as a new darwin node. The darwin node_id will be a new one. KEEP_OLD: It doesn't upload the new file. The existing darwin file is kept as it is., by default "NEW_VERSION"</p></td> <td><code>&#39;NEW_VERSION&#39;</code></td> </tr> </tbody> </table> <details class=quote> <summary>Source code in <code>edwtodisc\pdp.py</code></summary> <div class=highlight><pre><span></span><code><span class=nd>@staticmethod</span>
+<span class=k>def</span> <span class=nf>to_DARWIN</span><span class=p>(</span>
+    <span class=n>df</span><span class=p>,</span>
+    <span class=n>darwin_file_name</span><span class=o>=</span><span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>,</span>
+    <span class=n>darwin_root_folder_id</span><span class=o>=</span><span class=mi>290298255</span><span class=p>,</span>
+    <span class=n>darwin_sub_folder</span><span class=o>=</span><span class=s2>&quot;EDWtoDISC&quot;</span><span class=p>,</span>
+    <span class=n>to_csv_args</span><span class=o>=</span><span class=p>{</span><span class=s2>&quot;header&quot;</span><span class=p>:</span> <span class=s2>&quot;True&quot;</span><span class=p>,</span> <span class=s2>&quot;index&quot;</span><span class=p>:</span> <span class=s2>&quot;False&quot;</span><span class=p>},</span>
+    <span class=n>file_exists_policy</span><span class=o>=</span><span class=s2>&quot;NEW_VERSION&quot;</span><span class=p>,</span>
+<span class=p>):</span>
+    <span class=sd>&quot;&quot;&quot;provides a programatic interface to establish a connection to Darwin and to upload files into the specified Darwin folders.</span>
+
+<span class=sd>    Parameters</span>
+<span class=sd>    ----------</span>
+<span class=sd>    df : Pandas dataFrame</span>
+<span class=sd>        Dataframe to upload to DARWIN</span>
+<span class=sd>    darwin_file_name : str, optional</span>
+<span class=sd>        Can be different from the local file name, by default &quot;disc_submissions_rmb.csv&quot;</span>
+<span class=sd>    darwin_root_folder_id : int, optional</span>
+<span class=sd>        node of the root folder (last set of digits of the DARWIN folder URL), by default 290298255</span>
+<span class=sd>    darwin_sub_folder : str, optional</span>
+<span class=sd>        use None or empty string if uploading directly to the root folder, by default &quot;EDWtoDISC&quot;</span>
+<span class=sd>    to_csv_args : dict, optional</span>
+<span class=sd>        a dictionary with all the args to pass to pandas.to_csv, by default {&quot;header&quot;: &quot;True&quot;, &quot;index&quot;: &quot;False&quot;}</span>
+<span class=sd>    file_exists_policy : str, optional</span>
+<span class=sd>        When uploading a file - or a set of files - one can choose what to do when a file with the same name already exists in the target Darwin folder. The following options are available:</span>
+<span class=sd>        NEW_VERSION: Is the default behaviour. Adds a new version to the existing file. The darwin node_id will be the same.</span>
+<span class=sd>        DELETE_OLD: Deletes the existing darwin file (all versions) and adds the new file as a new darwin node. The darwin node_id will be a new one.</span>
+<span class=sd>        KEEP_OLD: It doesn&#39;t upload the new file. The existing darwin file is kept as it is.,</span>
+<span class=sd>        by default &quot;NEW_VERSION&quot;</span>
+<span class=sd>    &quot;&quot;&quot;</span>
+    <span class=n>darwin_disseminator</span> <span class=o>=</span> <span class=n>darwin_dis</span><span class=p>(</span><span class=n>darwin_root_folder_id</span><span class=p>)</span>
+    <span class=n>darwin_disseminator</span><span class=o>.</span><span class=n>upload_df_csv</span><span class=p>(</span>
+        <span class=n>darwin_sub_folder</span><span class=p>,</span>
+        <span class=n>darwin_file_name</span><span class=p>,</span>
+        <span class=n>df</span><span class=p>,</span>
+        <span class=n>to_csv_args</span><span class=p>,</span>
+        <span class=n>file_exists_policy</span><span class=p>,</span>
+    <span class=p>)</span>
+</code></pre></div> </details> </div> </div> </div> </div> </div> </div> </div> </div> </article> </div> </div> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Footer> <a href=../../ide/ class="md-footer__link md-footer__link--prev" aria-label="Previous: IDE" rel=prev> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </div> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Previous </span> IDE </div> </div> </a> <a href=../CreateBackups/ class="md-footer__link md-footer__link--next" aria-label="Next: CreateBackups" rel=next> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Next </span> CreateBackups </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; 2020 - 2021 Ilias Aarab </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["content.tabs.link", "navigation.sections", "navigation.tabs", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.00c949be.min.js", "version": null}</script> <script src=../../assets/javascripts/bundle.82b56eb2.min.js></script> </body> </html>
