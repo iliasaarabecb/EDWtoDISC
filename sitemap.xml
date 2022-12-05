@@ -2,82 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/command-line-tool/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/getting-started/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/ide/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/jupyter-notebook/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/troubleshooting/</loc>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/CreateBackups/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/CreateDictionaries/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/CreateTables/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/EDWSubmissionTracker/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/InitializeClients/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/InitializeProxyServer/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/PDP/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/Preprocesser/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/ToDISC/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/ToNameSpace/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bitbucket.ecb.de/users/aarabil/repos/edwtodisc/browse/docstrings/UpdateDeals/</loc>
-         <lastmod>2021-07-16</lastmod>
+         <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
