@@ -14,7 +14,7 @@
         <span class=n>wait</span><span class=o>=</span><span class=n>wait_incrementing</span><span class=p>(</span><span class=n>start</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span> <span class=n>increment</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span> <span class=nb>max</span><span class=o>=</span><span class=mi>100</span><span class=p>),</span>
         <span class=n>stop</span><span class=o>=</span><span class=n>stop_after_attempt</span><span class=p>(</span><span class=mi>10</span><span class=p>),</span>
         <span class=n>retry</span><span class=o>=</span><span class=n>retry_if_exception_type</span><span class=p>(</span><span class=n>HTTPError</span><span class=p>)</span>
-        <span class=o>|</span> <span class=n>retry_if_exception_type</span><span class=p>(</span><span class=n>ConnectionError</span><span class=p>),</span>
+        <span class=o>|</span> <span class=n>retry_if_exception_type</span><span class=p>(</span><span class=ne>ConnectionError</span><span class=p>),</span>
     <span class=p>)(</span><span class=n>disc</span><span class=o>.</span><span class=n>to_csv</span><span class=p>)</span>
 
     <span class=c1>## Define paths</span>
@@ -28,7 +28,7 @@
     <span class=n>path_disc_main</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>_path_disc_data</span>
     <span class=k>if</span> <span class=bp>self</span><span class=o>.</span><span class=n>_testrun</span><span class=p>:</span> <span class=c1>#verify testing dir</span>
         <span class=k>if</span> <span class=s1>&#39;testing&#39;</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>path_disc_main</span><span class=p>:</span>
-            <span class=k>return</span> <span class=k>print</span><span class=p>(</span><span class=s2>&quot;**Something went wrong! No testing dir registered for testruns!**&quot;</span><span class=p>)</span>
+            <span class=k>return</span> <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;**Something went wrong! No testing dir registered for testruns!**&quot;</span><span class=p>)</span>
 
     <span class=c1>## Pipeline 2A &amp; 2B</span>
     <span class=c1># -------------------</span>
@@ -52,7 +52,7 @@
             <span class=n>dtype</span><span class=o>=</span><span class=s2>&quot;object&quot;</span><span class=p>,</span>
             <span class=n>encoding</span><span class=o>=</span><span class=s2>&quot;ISO-8859-1&quot;</span><span class=p>,</span>
         <span class=p>)</span>
-        <span class=n>csv_file</span><span class=o>.</span><span class=n>rename</span><span class=p>(</span><span class=n>columns</span><span class=o>=</span><span class=p>{</span><span class=n>csv_file</span><span class=o>.</span><span class=n>columns</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=mi>0</span><span class=p>]:</span> <span class=s2>&quot;AR1&quot;</span><span class=p>},</span> <span class=n>inplace</span><span class=o>=</span><span class=bp>True</span><span class=p>)</span>
+        <span class=n>csv_file</span><span class=o>.</span><span class=n>rename</span><span class=p>(</span><span class=n>columns</span><span class=o>=</span><span class=p>{</span><span class=n>csv_file</span><span class=o>.</span><span class=n>columns</span><span class=p>[</span><span class=mi>0</span><span class=p>][</span><span class=mi>0</span><span class=p>]:</span> <span class=s2>&quot;AR1&quot;</span><span class=p>},</span> <span class=n>inplace</span><span class=o>=</span><span class=kc>True</span><span class=p>)</span>
 
         <span class=c1>## Pipeline 2B: Raw data stored as backup in DISC, gzipped</span>
         <span class=c1># ------------------------------------------------------------</span>
@@ -65,8 +65,8 @@
                 <span class=n>df</span><span class=o>=</span><span class=n>csv_file</span><span class=p>,</span>
                 <span class=n>path</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_disc_backup</span><span class=p>,</span> <span class=n>deal_name</span><span class=p>,</span> <span class=n>eachFile</span><span class=p>),</span>
                 <span class=n>compression</span><span class=o>=</span><span class=s2>&quot;gzip&quot;</span><span class=p>,</span>
-                <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
             <span class=p>)</span>
 
         <span class=c1>## Generic exception catcher (in most cases ConnectionError when vpn/cnxn falls out)</span>
@@ -75,8 +75,8 @@
             <span class=c1># Save tracker up until this point</span>
             <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>to_csv</span><span class=p>(</span>
                 <span class=n>path_or_buf</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>),</span>
-                <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
             <span class=p>)</span>
             <span class=c1># Sleep for 10min and try again</span>
             <span class=n>sleep</span><span class=p>(</span><span class=mi>600</span><span class=p>)</span>
@@ -85,8 +85,8 @@
                     <span class=n>df</span><span class=o>=</span><span class=n>csv_file</span><span class=p>,</span>
                     <span class=n>path</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_disc_backup</span><span class=p>,</span> <span class=n>deal_name</span><span class=p>,</span> <span class=n>eachFile</span><span class=p>),</span>
                     <span class=n>compression</span><span class=o>=</span><span class=s2>&quot;gzip&quot;</span><span class=p>,</span>
-                    <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                    <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                    <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                    <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
                 <span class=p>)</span>
             <span class=k>except</span><span class=p>:</span>
                 <span class=c1># Save tracker up until this point and stop running for now</span>
@@ -94,12 +94,12 @@
                     <span class=n>path_or_buf</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span>
                         <span class=n>path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span>
                     <span class=p>),</span>
-                    <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                    <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                    <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                    <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
                 <span class=p>)</span>
-                <span class=k>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; disc_submission tracker updated successfully!&quot;</span><span class=p>)</span>
-                <span class=k>print</span><span class=p>(</span><span class=s2>&quot;-------------------------------------------------&quot;</span><span class=p>)</span>
-                <span class=k>return</span> <span class=k>print</span><span class=p>(</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; disc_submission tracker updated successfully!&quot;</span><span class=p>)</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;-------------------------------------------------&quot;</span><span class=p>)</span>
+                <span class=k>return</span> <span class=nb>print</span><span class=p>(</span>
                     <span class=s2>&quot;Uknown error has occured while running to_disc() to push new submissions to DISC. </span><span class=se>\n</span><span class=s2>&quot;</span>
                     <span class=s2>&quot;Please verify a stable network connection, and run the pipelines again. </span><span class=se>\n</span><span class=s2>&quot;</span>
                     <span class=s2>&quot;Pipelines will automatically continue from the last downloaded deal based on the saved trackers.&quot;</span>
@@ -121,8 +121,8 @@
                 <span class=n>df</span><span class=o>=</span><span class=n>csv_file_processed</span><span class=p>,</span>
                 <span class=n>path</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_disc_main</span><span class=p>,</span> <span class=n>eachFile</span><span class=p>),</span>
                 <span class=n>compression</span><span class=o>=</span><span class=s2>&quot;gzip&quot;</span><span class=p>,</span>
-                <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
             <span class=p>)</span>
 
 
@@ -132,8 +132,8 @@
             <span class=c1># Save tracker up until this point</span>
             <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>to_csv</span><span class=p>(</span>
                 <span class=n>path_or_buf</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>),</span>
-                <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
             <span class=p>)</span>
             <span class=c1># Sleep for 10min and try again</span>
             <span class=n>sleep</span><span class=p>(</span><span class=mi>600</span><span class=p>)</span>
@@ -142,8 +142,8 @@
                     <span class=n>df</span><span class=o>=</span><span class=n>csv_file_processed</span><span class=p>,</span>
                     <span class=n>path</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_disc_main</span><span class=p>,</span> <span class=n>eachFile</span><span class=p>),</span>
                     <span class=n>compression</span><span class=o>=</span><span class=s2>&quot;gzip&quot;</span><span class=p>,</span>
-                    <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                    <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                    <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                    <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
                 <span class=p>)</span>
             <span class=k>except</span><span class=p>:</span>
                 <span class=c1># Save tracker up until this point and stop running for now</span>
@@ -151,12 +151,12 @@
                     <span class=n>path_or_buf</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span>
                         <span class=n>path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span>
                     <span class=p>),</span>
-                    <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-                    <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+                    <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+                    <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
                 <span class=p>)</span>
-                <span class=k>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; disc_submission tracker updated successfully!&quot;</span><span class=p>)</span>
-                <span class=k>print</span><span class=p>(</span><span class=s2>&quot;-------------------------------------------------&quot;</span><span class=p>)</span>
-                <span class=k>print</span><span class=p>(</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; disc_submission tracker updated successfully!&quot;</span><span class=p>)</span>
+                <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;-------------------------------------------------&quot;</span><span class=p>)</span>
+                <span class=nb>print</span><span class=p>(</span>
                     <span class=s2>&quot;Uknown error has occured while running to_disc() to push new submissions to DISC. </span><span class=se>\n</span><span class=s2>&quot;</span>
                     <span class=s2>&quot;Please verify a stable network connection, and run the script again. </span><span class=se>\n</span><span class=s2>&quot;</span>
                     <span class=s2>&quot;The script will automatically continue from the last downloaded deal based on the saved tracker.&quot;</span>
@@ -186,13 +186,13 @@
                 <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>csvFileName</span> <span class=o>==</span> <span class=n>eachFile</span><span class=p>,</span> <span class=s2>&quot;local&quot;</span>
             <span class=p>]</span> <span class=o>=</span> <span class=s2>&quot;deleted&quot;</span>
 
-        <span class=k>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt;&gt;&quot;</span><span class=p>,</span> <span class=n>eachFile</span><span class=p>,</span> <span class=s2>&quot;has been pushed through Pipelines 2A &amp; 2B!&quot;</span><span class=p>)</span>
+        <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt;&gt;&quot;</span><span class=p>,</span> <span class=n>eachFile</span><span class=p>,</span> <span class=s2>&quot;has been pushed through Pipelines 2A &amp; 2B!&quot;</span><span class=p>)</span>
 
     <span class=c1>## save tracker</span>
     <span class=bp>self</span><span class=o>.</span><span class=n>_trackers</span><span class=o>.</span><span class=n>DISC_submissions</span><span class=o>.</span><span class=n>to_csv</span><span class=p>(</span>
         <span class=n>path_or_buf</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>path</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>path_trackers</span><span class=p>,</span> <span class=s2>&quot;disc_submissions_rmb.csv&quot;</span><span class=p>),</span>
-        <span class=n>header</span><span class=o>=</span><span class=bp>True</span><span class=p>,</span>
-        <span class=n>index</span><span class=o>=</span><span class=bp>False</span><span class=p>,</span>
+        <span class=n>header</span><span class=o>=</span><span class=kc>True</span><span class=p>,</span>
+        <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span>
     <span class=p>)</span>
-    <span class=k>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; Uploading complete &amp; disc_submission tracker updated successfully!&quot;</span><span class=p>)</span>
+    <span class=nb>print</span><span class=p>(</span><span class=s2>&quot;&gt;&gt;&gt; Uploading complete &amp; disc_submission tracker updated successfully!&quot;</span><span class=p>)</span>
 </code></pre></div> </details> </div> </div> </div> </div> </div> </div> </div> </div> </article> </div> </div> </main> <footer class=md-footer> <nav class="md-footer__inner md-grid" aria-label=Footer> <a href=../Preprocesser/ class="md-footer__link md-footer__link--prev" aria-label="Previous: Preprocesser" rel=prev> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </div> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Previous </span> Preprocesser </div> </div> </a> <a href=../ToNameSpace/ class="md-footer__link md-footer__link--next" aria-label="Next: ToNameSpace" rel=next> <div class=md-footer__title> <div class=md-ellipsis> <span class=md-footer__direction> Next </span> ToNameSpace </div> </div> <div class="md-footer__button md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg> </div> </a> </nav> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; 2020 - 2021 Ilias Aarab </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["content.tabs.link", "navigation.sections", "navigation.tabs", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.00c949be.min.js", "version": null}</script> <script src=../../assets/javascripts/bundle.82b56eb2.min.js></script> </body> </html>
